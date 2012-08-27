@@ -1,17 +1,17 @@
 # Description:
-#   Grab a headline from ESPN through querying hubot
+#   Grab a headline from ESPN
 #
 # Dependencies:
 #   ESPN API Key
 #
 # Configuration:
-#   Insert your ESPN API Key into the http request
+#   Insert your ESPN API Key into the URL
 #
 # Commands:
-#   espn - Displays a random headline from ESPN.com
+#   hubot espn - Displays a random headline from ESPN.com
 #
 # Author:
-#   mike wilcox
+#   mjw56
 
 module.exports = (robot) ->
   robot.respond /espn/i, (msg) ->
