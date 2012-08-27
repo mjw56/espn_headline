@@ -2,10 +2,10 @@
 #   Grab a headline from ESPN through querying hubot
 #
 # Dependencies:
-#   None
+#   ESPN API Key
 #
 # Configuration:
-#   None
+#   Insert your ESPN API Key into the http request
 #
 # Commands:
 #   espn - Displays a random headline from ESPN.com
