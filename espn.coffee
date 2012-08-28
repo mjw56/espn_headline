@@ -8,18 +8,19 @@
 #   HUBOT_ESPN_ACCOUNT_KEY
 #
 # Commands:
-#   espn - Displays a random headline from ESPN.com
+#   hubot espn headline - Displays a random headline from ESPN.com
+#   hubot espn mlb <name of team> - Displays ESPN.com team homepage
 #
 # Author:
-#   mike wilcox
+#   mjw56
 
 espnApiKey = process.env.HUBOT_ESPN_ACCOUNT_KEY
 unless espnApiKey
   throw "You must enter your HUBOT_ESPN_ACCOUNT_KEY in your environment variables"
 
 module.exports = (robot) ->
-  robot.respond /espn/i, (msg) ->
-    search = escape(msg.match[1])
+  robot.respond /espn headline/i, (msg) ->
+    search = escape(msg.match[2])
     msg.http('http://api.espn.com/v1/sports/news/headlines?apikey=' + espnApiKey)
       .get() (err, res, body) ->
         result = JSON.parse(body)
@@ -27,11 +28,19 @@ module.exports = (robot) ->
         if result.headlines.count <= 0
           msg.send "Couldn't find any headlines"
           return
-
+        
         urls = [ ]
         for child in result.headlines
-          urls.push(child.headline + " " + child.links.web.href)
-
+          urls.push(child.headline + "-  " + child.links.web.href)
+          
         rnd = Math.floor(Math.random()*urls.length)
         msg.send urls[rnd]
 
+  robot.respond /(espn)( mlb)? (.*)/i, (msg) ->
+    msg.http('http://api.espn.com/v1/sports/baseball/mlb/teams?apikey=' + espnApiKey)
+      .get() (err, res, body) ->
+        result = JSON.parse(body)
+
+        for child in result.sports[0].leagues[0].teams
+          if child.name is msg.match[3]
+            msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
