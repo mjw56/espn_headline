@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   HUBOT_ESPN_API_KEY
+#   HUBOT_ESPN_ACCOUNT_KEY
 #
 # Commands:
 #   espn - Displays a random headline from ESPN.com
