@@ -39,8 +39,12 @@ module.exports = (robot) ->
   robot.respond /(espn)( mlb)? (.*)/i, (msg) ->
     msg.http('http://api.espn.com/v1/sports/baseball/mlb/teams?apikey=' + espnApiKey)
       .get() (err, res, body) ->
-        result = JSON.parse(body)
+        result = JSON.parse(body)	
 
         for child in result.sports[0].leagues[0].teams
-          if child.name is msg.match[3]
+          team = child.name.toLowerCase()
+          city = child.location.toLowerCase()
+          input = msg.match[3].toLowerCase()
+
+          if team is input || city is input
             msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
